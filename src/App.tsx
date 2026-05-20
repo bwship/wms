@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Linkedin, MailWarning, ScanSearch, type LucideIcon } from "lucide-react"
+import { Building2, FileSearch, Linkedin, MailWarning, ScanSearch, type LucideIcon } from "lucide-react"
 
 type WorkItem = {
   name: string
@@ -35,11 +35,13 @@ function WorkCard({ item }: { item: WorkItem }) {
               <item.Icon className="size-7 text-primary" aria-hidden />
             </span>
           ) : (
-            <img
-              src={item.logoUrl ?? (item.url ? faviconUrl(item.url) : "")}
-              alt=""
-              className="h-14 w-14 object-cover filter-[contrast(1.15)_saturate(1.25)]"
-            />
+            <span className="flex size-14 items-center justify-center overflow-hidden rounded-lg bg-muted/40 p-2">
+              <img
+                src={item.logoUrl ?? (item.url ? faviconUrl(item.url) : "")}
+                alt=""
+                className="max-h-full max-w-full object-contain"
+              />
+            </span>
           )}
         </span>
         <CardDescription>{item.description}</CardDescription>
@@ -83,6 +85,7 @@ function App() {
     {
       name: "Fearless Naturals",
       url: "https://app.fearlessnaturals.us",
+      Icon: FileSearch,
       description: "Product document intelligence — upload product specs and AI extracts structured summaries, attributes, and catalog-ready data.",
     },
     {
@@ -109,6 +112,7 @@ function App() {
     {
       name: "Speed Queen",
       url: "https://speedqueen.com/",
+      Icon: Building2,
       footnote: "Tech leadership",
       description: "Digital platform and customer-facing systems for a major consumer and commercial laundry brand under Alliance Laundry Systems.",
     },
