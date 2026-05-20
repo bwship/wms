@@ -4,7 +4,70 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Linkedin } from "lucide-react"
+import { Linkedin, MailWarning, ScanSearch, type LucideIcon } from "lucide-react"
+
+type WorkItem = {
+  name: string
+  description: string
+  url?: string
+  logoUrl?: string
+  Icon?: LucideIcon
+  footnote?: string
+}
+
+function faviconUrl(url: string) {
+  try {
+    const domain = new URL(url).hostname.replace(/^www\./, "")
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+  } catch {
+    return ""
+  }
+}
+
+function WorkCard({ item }: { item: WorkItem }) {
+  const card = (
+    <Card className={`flex h-full flex-col transition hover:border-primary/40 hover:shadow-md ${item.url ? "cursor-pointer" : ""}`}>
+      <CardHeader className="flex flex-col items-center text-center">
+        <CardTitle className="text-lg">{item.name}</CardTitle>
+        <span className="my-3 flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+          {item.Icon ? (
+            <span className="flex size-14 items-center justify-center rounded-lg bg-primary/10">
+              <item.Icon className="size-7 text-primary" aria-hidden />
+            </span>
+          ) : (
+            <img
+              src={item.logoUrl ?? (item.url ? faviconUrl(item.url) : "")}
+              alt=""
+              className="h-14 w-14 object-cover filter-[contrast(1.15)_saturate(1.25)]"
+            />
+          )}
+        </span>
+        <CardDescription>{item.description}</CardDescription>
+      </CardHeader>
+      <CardContent className="mt-auto pt-0 text-center">
+        {item.url ? (
+          <span className="text-sm text-primary">
+            {item.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} →
+          </span>
+        ) : (
+          <span className="text-sm text-muted-foreground">
+            {item.footnote ?? "Private deployment"}
+          </span>
+        )}
+      </CardContent>
+    </Card>
+  )
+
+  if (item.url) {
+    return (
+      <a href={item.url} target="_blank" rel="noopener noreferrer" className="block">
+        {card}
+      </a>
+    )
+  }
+
+  return card
+}
 
 function App() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
@@ -16,39 +79,89 @@ function App() {
     setFormData({ name: "", email: "", message: "" })
   }
 
-  const projects = [
-    { name: "Commandeer", url: "https://getcommandeer.com", description: "AWS infrastructure console — distributed cloud operations at desktop scale", logoUrl: "/commandeer-logo.png" },
-    { name: "MyScorecard", url: "https://myscorecard.com", description: "Real-time analytics platform — handicap computation & performance data at scale", logoUrl: "/myscorecard-logo.png" },
-    { name: "Fresh Catch", url: "https://freshcatchapp.com", description: "Two-sided marketplace — inventory, location, and fulfillment integrations", logoUrl: "/fresh-catch-logo.png" },
-    { name: "My Stats Diary", url: "https://mystatsdiary.com", description: "Multi-sport performance data platform — stats pipelines across disciplines", logoUrl: "https://www.mystatsdiary.com/logo.png" },
+  const systemsBuilt: WorkItem[] = [
+    {
+      name: "Fearless Naturals",
+      url: "https://app.fearlessnaturals.us",
+      description: "Product document intelligence — upload product specs and AI extracts structured summaries, attributes, and catalog-ready data.",
+    },
+    {
+      name: "Email Intelligence Platform",
+      Icon: MailWarning,
+      footnote: "Enterprise deployment",
+      description: "Inbound email analysis — sentiment scoring, escalation alerts when issues need attention, and performance ratings across vendor relationships.",
+    },
+    {
+      name: "Marketing Asset QC",
+      Icon: ScanSearch,
+      footnote: "Enterprise deployment",
+      description: "Multimodal QC pipeline — images and video validated for format, dimensions, and compliance before human review, with AI summaries for downstream QC.",
+    },
+    {
+      name: "Commandeer",
+      url: "https://getcommandeer.com",
+      description: "AWS infrastructure console — distributed cloud operations at desktop scale",
+      logoUrl: "/commandeer-logo.png",
+    },
   ]
 
-  const specialties = [
-    "AI systems & agent workflows",
-    "Autonomous & multimodal pipelines",
-    "Distributed systems & infrastructure",
-    "Real-time & low-latency platforms",
-    "Complex integrations & data architecture",
-    "High-leverage product engineering",
+  const techLeadership: WorkItem[] = [
+    {
+      name: "Speed Queen",
+      url: "https://speedqueen.com/",
+      footnote: "Tech leadership",
+      description: "Digital platform and customer-facing systems for a major consumer and commercial laundry brand under Alliance Laundry Systems.",
+    },
+    {
+      name: "Tuition.io",
+      url: "https://tuition.io/",
+      footnote: "Tech leadership",
+      description: "Enterprise education benefits platform — tuition assistance, student loan programs, and financial wellness for hundreds of employers.",
+    },
+    {
+      name: "FreshX",
+      url: "https://getfreshx.com/",
+      footnote: "Tech leadership",
+      description: "Refrigerated LTL logistics platform — rate search, load booking, and carrier integrations for cold-chain freight.",
+    },
   ]
 
-  const engagements = [
-    "Fractional CTO",
-    "AI architecture & agent systems",
-    "Prototype acceleration for funded startups",
-    "Advanced platform engineering",
-    "3–12 month contract engagements",
-    "Remote, high-trust operator model",
+  const technicalDomains = [
+    "AI infrastructure",
+    "Distributed systems",
+    "Low-latency architectures",
+    "Autonomous workflows",
+    "Multimodal systems",
+    "Platform engineering",
+    "Inference pipelines",
+    "Real-time systems",
+    "Scalable architecture",
   ]
 
-  const faviconUrl = (url: string) => {
-    try {
-      const domain = new URL(url).hostname.replace(/^www\./, "")
-      return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
-    } catch {
-      return ""
-    }
-  }
+  const services = [
+    "AI Systems Architecture",
+    "Autonomous Workflow Development",
+    "Platform Infrastructure",
+    "Prototype Acceleration",
+    "AI Integration & Deployment",
+    "Distributed Systems Engineering",
+    "Fractional CTO Engagements",
+  ]
+
+  const notes = [
+    {
+      title: "Production agent orchestration",
+      description: "When to chain models, when to parallelize, and how to keep latency bounded under load.",
+    },
+    {
+      title: "Inference pipeline design",
+      description: "Edge vs. cloud tradeoffs for real-time AI workloads—and where most teams get it wrong.",
+    },
+    {
+      title: "Scalable architecture under constraint",
+      description: "Building platform foundations when the product timeline is 90 days, not 9 months.",
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -59,8 +172,9 @@ function App() {
             <span className="text-lg font-semibold text-primary tracking-wide sm:tracking-normal"> Wall Systems</span>
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground sm:flex">
-            <a href="#work" className="transition hover:text-foreground">Systems</a>
+            <a href="#work" className="transition hover:text-foreground">Work</a>
             <a href="#engagements" className="transition hover:text-foreground">Engagements</a>
+            <a href="#notes" className="transition hover:text-foreground">Notes</a>
             <a href="#contact" className="transition hover:text-foreground">Contact</a>
             <a href="https://www.linkedin.com/in/bobbywall/" target="_blank" rel="noopener noreferrer" className="transition hover:text-foreground">LinkedIn</a>
           </nav>
@@ -72,18 +186,33 @@ function App() {
         <section className="border-b border-border/50 px-4 py-20 sm:py-28 md:py-36">
           <div className="container mx-auto max-w-3xl text-center">
             <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary">
-              Ex–Silicon Valley CTO
+              Built by an Ex–Silicon Valley CTO
             </p>
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              AI infrastructure, autonomous systems,
+              Advanced AI Systems
               <br />
-              <span className="text-primary">and high-leverage product engineering</span>
+              <span className="text-primary">& Infrastructure</span>
             </h1>
             <p className="text-lg text-muted-foreground sm:text-xl">
-              I architect and build advanced software systems directly—no agency layers, no handoffs. One senior operator for problems that need judgment, speed, and depth.
+              AI architecture, autonomous systems, and high-performance platform engineering—for founders and CTOs who need someone who handles hard systems.
             </p>
             <p className="mt-6 text-sm text-muted-foreground/80">
-              Limited availability · Remote engagements
+              Limited availability · Remote · 3–12 month engagements
+            </p>
+          </div>
+        </section>
+
+        {/* Who this is for */}
+        <section className="border-b border-border/50 bg-muted/30 px-4 py-12 sm:py-14">
+          <div className="container mx-auto max-w-2xl text-center">
+            <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              Who this is for
+            </h2>
+            <p className="text-base text-foreground sm:text-lg">
+              I partner with startups, technical founders, and organizations building ambitious AI-driven products.
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              I take on a limited number of high-impact engineering engagements each year.
             </p>
           </div>
         </section>
@@ -102,7 +231,7 @@ function App() {
               You hire the operator, not an agency.
             </h2>
             <p className="mb-8 text-muted-foreground">
-              I’m <strong className="text-foreground">Bob Wall</strong>—the technical judgment, architecture, and execution in a single engagement. Founders and CTOs bring me in when the problem is hard, the timeline is tight, and they need one person who can own the system end to end.
+              I’m <strong className="text-foreground">Bob Wall</strong>—distributed systems, AI infrastructure, agent architectures, and platform engineering in a single operator. Founders and CTOs bring me in when scalability, architecture depth, and execution speed all have to land at once.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               {["Systems Architect", "Fractional CTO", "AI Infrastructure"].map((role) => (
@@ -124,15 +253,15 @@ function App() {
               Technical domains
             </h2>
             <p className="mb-10 text-center text-muted-foreground">
-              Difficult systems—not generic app work.
+              The problems where architecture depth matters—not CRUD and brochureware.
             </p>
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {specialties.map((s) => (
+            <ul className="grid gap-3 sm:grid-cols-3">
+              {technicalDomains.map((s) => (
                 <li
                   key={s}
-                  className="flex items-center gap-3 rounded-xl border-2 border-primary/20 bg-card px-5 py-4 text-sm font-medium text-foreground shadow-sm transition hover:border-primary/40 hover:bg-primary/10 hover:shadow-md"
+                  className="flex items-center gap-3 rounded-lg border border-primary/20 bg-card px-4 py-3 text-sm font-medium text-foreground"
                 >
-                  <span className="size-2 shrink-0 rounded-full bg-primary ring-2 ring-primary/30" aria-hidden />
+                  <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
                   {s}
                 </li>
               ))}
@@ -140,17 +269,17 @@ function App() {
           </div>
         </section>
 
-        {/* Contract engagements */}
+        {/* Engagements / services */}
         <section id="engagements" className="border-b border-border/50 px-4 py-16 sm:py-20">
           <div className="container mx-auto max-w-4xl">
             <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Contract engagements
+              Engagements
             </h2>
             <p className="mb-10 text-center text-muted-foreground">
-              I take on a limited number of high-impact engagements each year.
+              Specialized work—not generic app development.
             </p>
             <ul className="grid gap-4 sm:grid-cols-2">
-              {engagements.map((e) => (
+              {services.map((e) => (
                 <li
                   key={e}
                   className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/50 px-5 py-4 text-sm font-medium text-foreground"
@@ -163,44 +292,58 @@ function App() {
           </div>
         </section>
 
-        {/* Past systems */}
+        {/* Architecture notes */}
+        <section id="notes" className="border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent px-4 py-16 sm:py-20">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Architecture notes
+            </h2>
+            <p className="mb-10 text-center text-muted-foreground">
+              Systems thinking on AI infrastructure, agents, and platform design.
+            </p>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {notes.map((note) => (
+                <Card key={note.title} className="border-primary/15">
+                  <CardHeader>
+                    <CardTitle className="text-base leading-snug">{note.title}</CardTitle>
+                    <CardDescription className="text-sm leading-relaxed">{note.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Work */}
         <section id="work" className="border-b border-border/50 px-4 py-16 sm:py-20">
           <div className="container mx-auto max-w-5xl">
             <h2 className="mb-3 text-center text-2xl font-semibold sm:text-3xl">
-              Systems built
+              Selected work
             </h2>
-            <p className="mb-10 text-center text-muted-foreground">
-              Platforms and infrastructure—not brochure sites.
+            <p className="mb-12 text-center text-muted-foreground">
+              Systems I’ve built and teams I’ve led.
             </p>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {projects.map((p) => (
-                <a
-                  key={p.url}
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block cursor-pointer"
-                >
-                  <Card className="flex h-full flex-col transition hover:border-primary/40 hover:shadow-md cursor-pointer">
-                    <CardHeader className="flex flex-col items-center text-center">
-                      <CardTitle className="text-lg">{p.name}</CardTitle>
-                      <span className="my-3 flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-lg">
-                        <img
-                          src={p.logoUrl ?? faviconUrl(p.url)}
-                          alt=""
-                          className="h-14 w-14 object-cover filter-[contrast(1.15)_saturate(1.25)]"
-                        />
-                      </span>
-                      <CardDescription>{p.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="mt-auto pt-0 text-center">
-                      <span className="text-sm text-primary">
-                        {p.url.replace("https://", "")} →
-                      </span>
-                    </CardContent>
-                  </Card>
-                </a>
-              ))}
+
+            <div className="mb-14">
+              <h3 className="mb-6 text-center text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                Systems built
+              </h3>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {systemsBuilt.map((item) => (
+                  <WorkCard key={item.name} item={item} />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="mb-6 text-center text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                Tech leadership
+              </h3>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {techLeadership.map((item) => (
+                  <WorkCard key={item.name} item={item} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
