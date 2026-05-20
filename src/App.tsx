@@ -17,19 +17,28 @@ function App() {
   }
 
   const projects = [
-    { name: "MyScorecard", url: "https://myscorecard.com", description: "Golf handicap and stats tracking", logoUrl: "/myscorecard-logo.png" },
-    { name: "Commandeer", url: "https://getcommandeer.com", description: "AWS Desktop Management Console", logoUrl: "/commandeer-logo.png" },
-    { name: "Fresh Catch", url: "https://freshcatchapp.com", description: "Seafood & local catch marketplace", logoUrl: "/fresh-catch-logo.png" },
-    { name: "My Stats Diary", url: "https://mystatsdiary.com", description: "Soccer, Baseball, Basketball and more stats & tracking", logoUrl: "https://www.mystatsdiary.com/logo.png" },
+    { name: "Commandeer", url: "https://getcommandeer.com", description: "AWS infrastructure console — distributed cloud operations at desktop scale", logoUrl: "/commandeer-logo.png" },
+    { name: "MyScorecard", url: "https://myscorecard.com", description: "Real-time analytics platform — handicap computation & performance data at scale", logoUrl: "/myscorecard-logo.png" },
+    { name: "Fresh Catch", url: "https://freshcatchapp.com", description: "Two-sided marketplace — inventory, location, and fulfillment integrations", logoUrl: "/fresh-catch-logo.png" },
+    { name: "My Stats Diary", url: "https://mystatsdiary.com", description: "Multi-sport performance data platform — stats pipelines across disciplines", logoUrl: "https://www.mystatsdiary.com/logo.png" },
   ]
 
   const specialties = [
-    "Full-stack web development",
-    "iOS and Android native and web-wrapped experiences",
-    "Database design",
-    "AI integrations",
-    "Complex business processes",
-    "SaaS",
+    "AI systems & agent workflows",
+    "Autonomous & multimodal pipelines",
+    "Distributed systems & infrastructure",
+    "Real-time & low-latency platforms",
+    "Complex integrations & data architecture",
+    "High-leverage product engineering",
+  ]
+
+  const engagements = [
+    "Fractional CTO",
+    "AI architecture & agent systems",
+    "Prototype acceleration for funded startups",
+    "Advanced platform engineering",
+    "3–12 month contract engagements",
+    "Remote, high-trust operator model",
   ]
 
   const faviconUrl = (url: string) => {
@@ -46,11 +55,12 @@ function App() {
       <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <a href="#" className="flex items-center gap-2 flex-1 sm:flex-none">
-            <img src="/wms-logo.png" alt="WMS" className="h-9 w-auto" />
-            <span className="text-lg font-semibold text-primary tracking-wide sm:tracking-normal"> Wall Mobile Solutions</span>
+            <img src="/wms-logo.png" alt="Wall Systems" className="h-9 w-auto" />
+            <span className="text-lg font-semibold text-primary tracking-wide sm:tracking-normal"> Wall Systems</span>
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground sm:flex">
-            <a href="#work" className="transition hover:text-foreground">Work</a>
+            <a href="#work" className="transition hover:text-foreground">Systems</a>
+            <a href="#engagements" className="transition hover:text-foreground">Engagements</a>
             <a href="#contact" className="transition hover:text-foreground">Contact</a>
             <a href="https://www.linkedin.com/in/bobbywall/" target="_blank" rel="noopener noreferrer" className="transition hover:text-foreground">LinkedIn</a>
           </nav>
@@ -62,15 +72,18 @@ function App() {
         <section className="border-b border-border/50 px-4 py-20 sm:py-28 md:py-36">
           <div className="container mx-auto max-w-3xl text-center">
             <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary">
-              Silicon Valley CTO
+              Ex–Silicon Valley CTO
             </p>
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Mobile, web & AI workflows—
+              AI infrastructure, autonomous systems,
               <br />
-              <span className="text-primary">without the big-firm price tag</span>
+              <span className="text-primary">and high-leverage product engineering</span>
             </h1>
             <p className="text-lg text-muted-foreground sm:text-xl">
-              I design and build your product myself. No layers of account managers or offshore teams—just one experienced technical founder focused on your outcome.
+              I architect and build advanced software systems directly—no agency layers, no handoffs. One senior operator for problems that need judgment, speed, and depth.
+            </p>
+            <p className="mt-6 text-sm text-muted-foreground/80">
+              Limited availability · Remote engagements
             </p>
           </div>
         </section>
@@ -86,13 +99,13 @@ function App() {
               />
             </div>
             <h2 className="mb-4 text-2xl font-semibold sm:text-3xl">
-              One person. Three roles.
+              You hire the operator, not an agency.
             </h2>
             <p className="mb-8 text-muted-foreground">
-              I’m <strong className="text-foreground">Bob Wall</strong>: your CTO-level strategist, product manager, and developer in a single engagement. You get clarity, speed, and lower cost—no handoffs, no miscommunication.
+              I’m <strong className="text-foreground">Bob Wall</strong>—the technical judgment, architecture, and execution in a single engagement. Founders and CTOs bring me in when the problem is hard, the timeline is tight, and they need one person who can own the system end to end.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              {["CTO", "Product Manager", "Developer"].map((role) => (
+              {["Systems Architect", "Fractional CTO", "AI Infrastructure"].map((role) => (
                 <span
                   key={role}
                   className="rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary"
@@ -107,9 +120,12 @@ function App() {
         {/* Specialties */}
         <section className="border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent px-4 py-16 sm:py-20">
           <div className="container mx-auto max-w-4xl">
-            <h2 className="mb-10 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Specialties
+            <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Technical domains
             </h2>
+            <p className="mb-10 text-center text-muted-foreground">
+              Difficult systems—not generic app work.
+            </p>
             <ul className="grid gap-4 sm:grid-cols-2">
               {specialties.map((s) => (
                 <li
@@ -124,12 +140,38 @@ function App() {
           </div>
         </section>
 
-        {/* Past projects */}
+        {/* Contract engagements */}
+        <section id="engagements" className="border-b border-border/50 px-4 py-16 sm:py-20">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="mb-3 text-center text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Contract engagements
+            </h2>
+            <p className="mb-10 text-center text-muted-foreground">
+              I take on a limited number of high-impact engagements each year.
+            </p>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {engagements.map((e) => (
+                <li
+                  key={e}
+                  className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/50 px-5 py-4 text-sm font-medium text-foreground"
+                >
+                  <span className="size-2 shrink-0 rounded-full bg-primary/60" aria-hidden />
+                  {e}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Past systems */}
         <section id="work" className="border-b border-border/50 px-4 py-16 sm:py-20">
           <div className="container mx-auto max-w-5xl">
-            <h2 className="mb-10 text-center text-2xl font-semibold sm:text-3xl">
-              Past projects
+            <h2 className="mb-3 text-center text-2xl font-semibold sm:text-3xl">
+              Systems built
             </h2>
+            <p className="mb-10 text-center text-muted-foreground">
+              Platforms and infrastructure—not brochure sites.
+            </p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {projects.map((p) => (
                 <a
@@ -167,10 +209,10 @@ function App() {
         <section id="contact" className="px-4 py-16 sm:py-20">
           <div className="container mx-auto max-w-xl">
             <h2 className="mb-2 text-center text-2xl font-semibold sm:text-3xl">
-              Get in touch
+              Start a conversation
             </h2>
             <p className="mb-8 text-center text-muted-foreground">
-              Tell me about your product or workflow idea. I’ll respond personally.
+              Describe the system, the deadline, and what’s at stake. I respond personally to engagements that fit.
             </p>
             {submitted ? (
               <Card className="text-center">
@@ -220,7 +262,7 @@ function App() {
                       <Label htmlFor="message">Message</Label>
                       <Textarea
                         id="message"
-                        placeholder="What are you looking to build?"
+                        placeholder="What system do you need built, and by when?"
                         rows={4}
                         value={formData.message}
                         onChange={(e) =>
@@ -233,7 +275,7 @@ function App() {
                       Send message
                     </Button>
                     <p className="mt-2 text-xs text-muted-foreground">
-                      * Resume and references available upon request.
+                      References and architecture background available on request.
                     </p>
                   </form>
                 </CardContent>
@@ -254,7 +296,7 @@ function App() {
           >
             <Linkedin className="h-6 w-6" />
           </a>
-          <p>© {new Date().getFullYear()} Wall Mobile Solutions. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Wall Systems. All rights reserved.</p>
         </div>
       </footer>
     </div>
