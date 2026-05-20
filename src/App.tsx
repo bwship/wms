@@ -171,9 +171,10 @@ function App() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <a href="#" className="flex items-center gap-2 flex-1 sm:flex-none">
-            <img src="/wms-logo.png" alt="Wall Systems" className="h-9 w-auto" />
-            <span className="text-lg font-semibold text-primary tracking-wide sm:tracking-normal"> Wall Systems</span>
+          <a href="#" className="flex items-center flex-1 sm:flex-none">
+            <span className="text-xl font-semibold tracking-tight">
+              Wall <span className="text-primary">AI</span>
+            </span>
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground sm:flex">
             <a href="#work" className="transition hover:text-foreground">Work</a>
@@ -443,7 +444,7 @@ function App() {
           >
             <Linkedin className="h-6 w-6" />
           </a>
-          <p>© {new Date().getFullYear()} Wall Systems. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Wall AI. All rights reserved.</p>
         </div>
       </footer>
     </div>
