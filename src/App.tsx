@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, FileSearch, Linkedin, MailWarning, ScanSearch, type LucideIcon } from "lucide-react"
+import { Linkedin, MailWarning, ScanSearch, type LucideIcon } from "lucide-react"
 
 type WorkItem = {
   name: string
@@ -24,9 +24,13 @@ function faviconUrl(url: string) {
   }
 }
 
+function linkLabel(url: string) {
+  return url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "")
+}
+
 function WorkCard({ item }: { item: WorkItem }) {
-  const card = (
-    <Card className={`flex h-full flex-col transition hover:border-primary/40 hover:shadow-md ${item.url ? "cursor-pointer" : ""}`}>
+  return (
+    <Card className="flex h-full flex-col transition hover:border-primary/40 hover:shadow-md">
       <CardHeader className="flex flex-col items-center text-center">
         <CardTitle className="text-lg">{item.name}</CardTitle>
         <span className="my-3 flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-lg">
@@ -46,29 +50,34 @@ function WorkCard({ item }: { item: WorkItem }) {
         </span>
         <CardDescription>{item.description}</CardDescription>
       </CardHeader>
-      <CardContent className="mt-auto pt-0 text-center">
+      <CardContent className="mt-auto flex justify-center pt-0">
         {item.url ? (
-          <span className="text-sm text-primary">
-            {item.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} →
-          </span>
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary transition hover:border-primary/50 hover:bg-primary/10"
+          >
+            {linkLabel(item.url)} →
+          </a>
         ) : (
-          <span className="text-sm text-muted-foreground">
+          <span className="inline-flex items-center rounded-full border border-border bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground">
             {item.footnote ?? "Private deployment"}
           </span>
         )}
       </CardContent>
     </Card>
   )
+}
 
-  if (item.url) {
-    return (
-      <a href={item.url} target="_blank" rel="noopener noreferrer" className="block">
-        {card}
-      </a>
-    )
-  }
+function sortSystemsBuilt(items: WorkItem[]) {
+  const named = items.filter((item) => item.url).sort((a, b) => a.name.localeCompare(b.name))
+  const other = items.filter((item) => !item.url).sort((a, b) => a.name.localeCompare(b.name))
+  return [...named, ...other]
+}
 
-  return card
+function sortAlphabetically(items: WorkItem[]) {
+  return [...items].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 function App() {
@@ -85,7 +94,7 @@ function App() {
     {
       name: "Fearless Naturals",
       url: "https://app.fearlessnaturals.us",
-      Icon: FileSearch,
+      logoUrl: "/fearless-naturals-logo.gif",
       description: "Product document intelligence — upload product specs and AI extracts structured summaries, attributes, and catalog-ready data.",
     },
     {
@@ -101,6 +110,12 @@ function App() {
       description: "Multimodal QC pipeline — images and video validated for format, dimensions, and compliance before human review, with AI summaries for downstream QC.",
     },
     {
+      name: "MyScorecard",
+      url: "https://myscorecard.com",
+      logoUrl: "/myscorecard-logo.png",
+      description: "Real-time golf analytics platform — handicap computation, stats tracking, and performance data at scale.",
+    },
+    {
       name: "Commandeer",
       url: "https://getcommandeer.com",
       description: "AWS infrastructure console — distributed cloud operations at desktop scale",
@@ -110,9 +125,16 @@ function App() {
 
   const techLeadership: WorkItem[] = [
     {
+      name: "Tumble",
+      url: "https://www.tumble.to/",
+      logoUrl: "/tumble-logo.png",
+      footnote: "Tech leadership",
+      description: "Smart laundry platform — IoT-connected shared laundry for multifamily properties and on-demand wash-and-fold pickup and delivery.",
+    },
+    {
       name: "Speed Queen",
       url: "https://speedqueen.com/",
-      Icon: Building2,
+      logoUrl: "/speed-queen-logo.png",
       footnote: "Tech leadership",
       description: "Digital platform and customer-facing systems for a major consumer and commercial laundry brand under Alliance Laundry Systems.",
     },
@@ -127,6 +149,12 @@ function App() {
       url: "https://getfreshx.com/",
       footnote: "Tech leadership",
       description: "Refrigerated LTL logistics platform — rate search, load booking, and carrier integrations for cold-chain freight.",
+    },
+    {
+      name: "Washio",
+      logoUrl: "/washio-logo.png",
+      footnote: "Co-founder · Acquired 2016",
+      description: "On-demand laundry and dry cleaning — pioneered mobile pickup and delivery; raised $17M+ before assets were acquired by Rinse.",
     },
   ]
 
@@ -334,7 +362,7 @@ function App() {
                 Systems built
               </h3>
               <div className="grid gap-6 sm:grid-cols-2">
-                {systemsBuilt.map((item) => (
+                {sortSystemsBuilt(systemsBuilt).map((item) => (
                   <WorkCard key={item.name} item={item} />
                 ))}
               </div>
@@ -345,7 +373,7 @@ function App() {
                 Tech leadership
               </h3>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {techLeadership.map((item) => (
+                {sortAlphabetically(techLeadership).map((item) => (
                   <WorkCard key={item.name} item={item} />
                 ))}
               </div>
