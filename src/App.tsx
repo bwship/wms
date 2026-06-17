@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Forminit } from "forminit"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -80,12 +81,40 @@ function sortAlphabetically(items: WorkItem[]) {
   return [...items].sort((a, b) => a.name.localeCompare(b.name))
 }
 
+const forminit = new Forminit()
+
 function App() {
+  const formId = import.meta.env.VITE_FORMINIT_FORM_ID
+
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!formId) {
+      setSubmitError("Contact form is not configured. Add VITE_FORMINIT_FORM_ID to your environment.")
+      return
+    }
+
+    setSubmitting(true)
+    setSubmitError(null)
+
+    const payload = new FormData()
+    payload.append("fi-sender-fullName", formData.name)
+    payload.append("fi-sender-email", formData.email)
+    payload.append("fi-text-message", formData.message)
+
+    const { error } = await forminit.submit(formId, payload)
+
+    setSubmitting(false)
+
+    if (error) {
+      setSubmitError(error.message)
+      return
+    }
+
     setSubmitted(true)
     setFormData({ name: "", email: "", message: "" })
   }
@@ -399,7 +428,10 @@ function App() {
                   <Button
                     variant="outline"
                     className="mt-4"
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => {
+                      setSubmitted(false)
+                      setSubmitError(null)
+                    }}
                   >
                     Send another message
                   </Button>
@@ -447,9 +479,14 @@ function App() {
                         required
                       />
                     </div>
-                    <Button type="submit" size="lg" className="mt-2">
-                      Send message
+                    <Button type="submit" size="lg" className="mt-2" disabled={submitting}>
+                      {submitting ? "Sending…" : "Send message"}
                     </Button>
+                    {submitError ? (
+                      <p className="text-sm text-destructive" role="alert">
+                        {submitError}
+                      </p>
+                    ) : null}
                     <p className="mt-2 text-xs text-muted-foreground">
                       References and architecture background available on request.
                     </p>
